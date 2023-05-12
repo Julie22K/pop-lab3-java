@@ -8,14 +8,16 @@ public class Manager {
     public Semaphore access;
     public Semaphore full;
     public Semaphore empty;
-    public int counter;
 
     public ArrayList<String> storage = new ArrayList<>();
+
+    public int item_counter;
 
     public Manager(int storageSize) {
         access = new Semaphore(1);
         full = new Semaphore(storageSize);
         empty = new Semaphore(0);
-        this.counter=0;
+
+        item_counter=0;
     }
 }

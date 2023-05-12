@@ -4,6 +4,7 @@ public class Producer implements Runnable{
     private final int itemNumbers;
     private final Manager manager;
     private final String name;
+
     public Producer(int itemNumbers, Manager manager,String name) {
         this.itemNumbers = itemNumbers;
         this.manager = manager;
@@ -14,22 +15,23 @@ public class Producer implements Runnable{
 
     @Override
     public void run() {
-        while (manager.counter<this.itemNumbers) {
+        for (int i = 0; i < itemNumbers; i++) {
             try {
                 manager.full.acquire();
                 manager.access.acquire();
-                if(manager.counter>=this.itemNumbers){
-                    manager.full.release();
+
+                if(manager.item_counter<itemNumbers) {
+                    manager.storage.add("item " + manager.item_counter);
+                    System.out.println(name + " added item " + manager.item_counter);
+                    manager.item_counter++;
+
+                    manager.access.release();
+                    manager.empty.release();
+                }
+                else{
                     manager.access.release();
                     break;
                 }
-
-                manager.storage.add("item " + manager.counter);
-                System.out.println(this.name+" added item " + manager.counter);
-                manager.counter++;
-
-                manager.access.release();
-                manager.empty.release();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
