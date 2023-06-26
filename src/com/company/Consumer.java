@@ -19,7 +19,7 @@ public class Consumer implements Runnable {
             String item;
             try {
                 manager.empty.acquire();
-                //Thread.sleep(1000);
+                Thread.sleep(1000);
                 manager.access.acquire();
 
                 item = manager.storage.get(0);

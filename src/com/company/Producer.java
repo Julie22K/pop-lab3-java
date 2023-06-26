@@ -20,18 +20,13 @@ public class Producer implements Runnable{
                 manager.full.acquire();
                 manager.access.acquire();
 
-                if(manager.item_counter<itemNumbers) {
-                    manager.storage.add("item " + manager.item_counter);
-                    System.out.println(name + " added item " + manager.item_counter);
-                    manager.item_counter++;
+                manager.storage.add("item " + manager.item_counter);
+                System.out.println(name + " added item " + manager.item_counter);
+                manager.item_counter++;
 
-                    manager.access.release();
-                    manager.empty.release();
-                }
-                else{
-                    manager.access.release();
-                    break;
-                }
+                manager.access.release();
+                manager.empty.release();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
